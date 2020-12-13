@@ -215,5 +215,5 @@ if [ "$INSTALL" = "YES" ]; then
 	#cleanup
 
 	output "Installation finished..."
-	echo "Configure your webserver as you wish. Apache example: BackupPC-$BACKUPPC_VERSION/httpd/src/BackupPC.conf"
+	echo "Configure your webserver as you wish. Apache example: https://github.com/backuppc/backuppc/blob/master/httpd/src/BackupPC.conf"
 fi
