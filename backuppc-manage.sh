@@ -16,6 +16,8 @@ get_config () {
 	fi
 }
 
+PM=$(get_packagemanager)
+
 # Parse arguments
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -52,7 +54,7 @@ set -- "${POSITIONAL[@]}"
 # Break if no action given
 if [ -z "$INSTALL" ] && [ -z "$REMOVE" ]; then
     echo "Choose a action you want to use. Either '--install' or '--remove'"
-    exit
+	exit 1
 fi
 
 # Set latest version if none defined
@@ -153,9 +155,20 @@ create_user () {
 	    output "User 'backuppc' already exists ..."
 	else
 	    output "Creating '$1' user ..."
-		sudo -i addgroup --system backuppc
-		sudo -i adduser --system --gecos "BackupPC" --ingroup $1 \
-		  --shell /bin/sh --home /var/lib/backuppc $1
+		if [ "$PM" = "apt" ]; then
+			sudo -i addgroup --system $1
+			sudo -i adduser --system --gecos "BackupPC" --ingroup $1 --shell /bin/sh --home /var/lib/backuppc $1
+		fi
+
+		if [ "$PM" = "yum" ]; then
+			sudo -i groupadd --system $1
+			sudo -i useradd --system -g $1 --shell /bin/sh --home-dir /var/lib/backuppc $1
+		fi
+
+		if [ "$PM" = "" ]; then
+			output "Could not create user"
+			exit 1
+		fi
 	fi
 }
 
@@ -176,12 +189,11 @@ if [ "$REMOVE" = "YES" ]; then
 fi
 
 if [ "$INSTALL" = "YES" ]; then
-	PM=$(get_packagemanager)
 	output "Install required *.deb packages ..."
 
 	if [ "$PM" = "" ]; then
 		output "Could not determine Package Manager"
-		exit
+		exit 1
 	fi
 
 	if [ "$PM" = "apt" ]; then
