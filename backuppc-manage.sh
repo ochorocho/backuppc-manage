@@ -11,7 +11,9 @@ output () {
 }
 
 get_config () {
-	[ -f "/etc/BackupPC/config.pl" ] && sudo grep "\$Conf{$1}" /etc/BackupPC/config.pl | grep -o -P "(?<=').*(?=')"
+	if sudo test -f "/etc/BackupPC/config.pl"; then
+		sudo grep "\$Conf{$1}" /etc/BackupPC/config.pl | grep -o -P "(?<=').*(?=')"
+	fi
 }
 
 # Parse arguments
