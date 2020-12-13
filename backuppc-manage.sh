@@ -185,21 +185,22 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo $PM -y install curl perl smbclient sendmail rrdtool rsync par2 tar
+		sudo $PM -y install gcc curl perl smbclient sendmail rrdtool rsync par2 tar
 	fi
 
 	if [ "$PM" = "yum" ]; then
 		sudo $PM -y install epel-release
-		sudo $PM -y install curl perl samba-client sendmail rrdtool rsync par2cmdline tar
+		sudo $PM -y install gcc curl perl samba-client sendmail rrdtool rsync par2cmdline tar
 	fi
 	
- 	install_perl_modules
+	# TODO: Enable orig workflow
+ 	#install_perl_modules
 	install_rsync_bpc
 	install_backuppc
 	
 	systemctl_configure
 	create_user $(get_config 'BackupPCUser')
-	cleanup
+	#cleanup
 
 	output "Installation finished..."
 	echo "Configure your webserver as you wish. Apache example: BackupPC-$BACKUPPC_VERSION/httpd/src/BackupPC.conf"
