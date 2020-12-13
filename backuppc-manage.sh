@@ -106,8 +106,8 @@ systemctl_configure () {
 
 get_packagemanager () {
 	declare -A osInfo;
-	osInfo[/etc/redhat-release]="yum -y"
-	osInfo[/etc/debian_version]="apt -y"
+	osInfo[/etc/redhat-release]="yum"
+	osInfo[/etc/debian_version]="apt"
 	
 	for f in ${!osInfo[@]}
 	do
@@ -176,7 +176,20 @@ fi
 if [ "$INSTALL" = "YES" ]; then
 	PM=$(get_packagemanager)
 	output "Install required *.deb packages ..."
-	sudo $PM install curl perl smbclient sendmail rrdtool rsync par2 tar
+
+	if [ "$PM" = "" ]; then
+		output "Could not determine Package Manager"
+		exit
+	fi
+
+	if [ "$PM" = "apt" ]; then
+		sudo $PM -y install curl perl smbclient sendmail rrdtool rsync par2 tar
+	fi
+
+	if [ "$PM" = "yum" ]; then
+		sudo $PM -y install epel-release
+		sudo $PM -y install curl perl samba-client sendmail rrdtool rsync par2cmdline tar
+	fi
 	
  	install_perl_modules
 	install_rsync_bpc
