@@ -16,6 +16,19 @@ get_config () {
 	fi
 }
 
+get_packagemanager () {
+	declare -A osInfo;
+	osInfo[/etc/redhat-release]="yum"
+	osInfo[/etc/debian_version]="apt"
+	
+	for f in ${!osInfo[@]}
+	do
+	    if [[ -f $f ]];then
+	        echo ${osInfo[$f]}
+	    fi
+	done
+}
+
 PM=$(get_packagemanager)
 
 # Parse arguments
@@ -106,19 +119,6 @@ systemctl_configure () {
 	output "Add systemd service file ..."
 	yes | sudo cp -f BackupPC-$BACKUPPC_VERSION/systemd/backuppc.service /etc/systemd/system/backuppc.service
 	sudo systemctl daemon-reload
-}
-
-get_packagemanager () {
-	declare -A osInfo;
-	osInfo[/etc/redhat-release]="yum"
-	osInfo[/etc/debian_version]="apt"
-	
-	for f in ${!osInfo[@]}
-	do
-	    if [[ -f $f ]];then
-	        echo ${osInfo[$f]}
-	    fi
-	done
 }
 
 remove_file() {
