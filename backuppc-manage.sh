@@ -176,6 +176,7 @@ if [ "$REMOVE" = "YES" ]; then
 	sudo systemctl is-active --quiet cronasdsa.service && sudo systemctl stop backuppc.service
 	remove_file "/etc/systemd/system/backuppc.service"
 	
+	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
 	LOG_DIR=$(get_config 'LogDir')
 	RUN_DIR=$(get_config 'RunDir')
@@ -185,7 +186,7 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_folder_confirm "$RUN_DIR"
 	remove_folder_confirm "$CONF_DIR"
 			
-	output "BackupPC removed ..."
+	output "BackupPC removed ... Data directory $TOP_DIR was not deleted."
 fi
 
 if [ "$INSTALL" = "YES" ]; then
@@ -212,7 +213,7 @@ if [ "$INSTALL" = "YES" ]; then
 	install_backuppc
 	
 	systemctl_configure
-	#cleanup
+	cleanup
 
 	output "Installation finished..."
 	echo "Configure your webserver as you wish. Apache example: https://github.com/backuppc/backuppc/blob/master/httpd/src/BackupPC.conf"
