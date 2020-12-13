@@ -206,7 +206,6 @@ if [ "$INSTALL" = "YES" ]; then
 		sudo $PM -y install gcc libacl-devel curl perl samba-client sendmail rrdtool rsync par2cmdline tar
 	fi
 	
-	# TODO: Enable orig workflow
  	install_perl_modules
 	install_rsync_bpc
 	create_user "backuppc"
