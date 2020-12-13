@@ -185,21 +185,21 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo $PM -y install gcc curl perl smbclient sendmail rrdtool rsync par2 tar
+		sudo $PM -y install gcc libacl1-dev curl perl smbclient sendmail rrdtool rsync par2 tar
 	fi
 
 	if [ "$PM" = "yum" ]; then
 		sudo $PM -y install epel-release
-		sudo $PM -y install gcc curl perl samba-client sendmail rrdtool rsync par2cmdline tar
+		sudo $PM -y install gcc libacl-devel curl perl samba-client sendmail rrdtool rsync par2cmdline tar
 	fi
 	
 	# TODO: Enable orig workflow
- 	#install_perl_modules
+ 	install_perl_modules
 	install_rsync_bpc
+	create_user "backuppc"
 	install_backuppc
 	
 	systemctl_configure
-	create_user $(get_config 'BackupPCUser')
 	#cleanup
 
 	output "Installation finished..."
