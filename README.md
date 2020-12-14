@@ -24,4 +24,34 @@ Install specific version of [BackupPC](https://github.com/backuppc/backuppc/rele
 ./backuppc-manage.sh --install --backuppc-version=4.4.0 --rsync-bpc-version=3.1.3.0
 ```
 
-Don't forget to configure your webserver, see https://backuppc.github.io/backuppc/BackupPC.html#SCGI-Setup
+# Configure Webserver
+
+## Apache2 config
+
+Install mod_scgi package Ubuntu/Debian using `apt`
+```
+apt install libapache2-mod-scgi
+```
+
+or download and install manually
+
+```
+curl -L -o libapache2-mod-scgi.deb http://mirrors.kernel.org/ubuntu/pool/universe/s/scgi/libapache2-mod-scgi_1.13-1.1build1_amd64.deb
+sudo dpkg -i libapache2-mod-scgi.deb
+```
+
+Create `/etc/apache2/sites-enabled/backuppc.conf` with the following content:
+
+```
+LoadModule scgi_module modules/mod_scgi.so
+SCGIMount /BackupPC_Admin 127.0.0.1:10268
+<Location /BackupPC_Admin>
+    AuthUserFile /etc/BackupPC/passwd
+    AuthType basic
+    AuthName "access"
+    require valid-user
+</Location>
+Alias           /BackupPC         /var/www/BackupPC/
+```
+	
+Run `a2ensite backuppc` to enable apache config and `htpasswd -c /etc/BackupPC/passwd <USERNAME>` to create a user"

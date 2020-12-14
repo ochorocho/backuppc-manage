@@ -30,6 +30,7 @@ get_packagemanager () {
 }
 
 PM=$(get_packagemanager)
+ASSETS=/var/www/BackupPC/
 
 # Parse arguments
 POSITIONAL=()
@@ -111,7 +112,15 @@ install_backuppc () {
 	curl -L -o BackupPC.tar.gz https://github.com/backuppc/backuppc/releases/download/$BACKUPPC_VERSION/BackupPC-$BACKUPPC_VERSION.tar.gz
 	tar zxf BackupPC.tar.gz
 	cd BackupPC-$BACKUPPC_VERSION	
-	sudo perl configure.pl
+	sudo perl configure.pl --batch \
+		--hostname hostname \
+		--data-dir /data/backuppc \
+		--html-dir $ASSETS \
+		--html-dir-url /BackupPC \
+		--scgi-port 10268 \
+		--install-dir /usr/local/BackupPC \
+		--backuppc-user backuppc \
+		--config-override CgiAdminUsers=\"backuppc\"
 	cd ..
 }
 
@@ -119,6 +128,13 @@ systemctl_configure () {
 	output "Add systemd service file ..."
 	yes | sudo cp -f BackupPC-$BACKUPPC_VERSION/systemd/backuppc.service /etc/systemd/system/backuppc.service
 	sudo systemctl daemon-reload
+}
+
+copy_assets () {
+	output "Copy assets to $ASSETS"
+	sudo mkdir -p $ASSETS
+	sudo cp -f BackupPC-$BACKUPPC_VERSION/conf/BackupPC_* $ASSETS
+	sudo cp -f BackupPC-$BACKUPPC_VERSION/images/* $ASSETS
 }
 
 remove_file() {
@@ -173,8 +189,9 @@ create_user () {
 }
 
 if [ "$REMOVE" = "YES" ]; then
-	sudo systemctl is-active --quiet cronasdsa.service && sudo systemctl stop backuppc.service
+	sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
 	remove_file "/etc/systemd/system/backuppc.service"
+	sudo systemctl daemon-reload
 	
 	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
@@ -185,6 +202,8 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_folder_confirm "$LOG_DIR"
 	remove_folder_confirm "$RUN_DIR"
 	remove_folder_confirm "$CONF_DIR"
+	remove_folder "$ASSETS/*"
+
 			
 	output "BackupPC removed ... Data directory $TOP_DIR was not deleted."
 fi
@@ -203,7 +222,7 @@ if [ "$INSTALL" = "YES" ]; then
 
 	if [ "$PM" = "yum" ]; then
 		sudo $PM -y install epel-release
-		sudo $PM  install gcc libacl-devel curl perl samba-client rrdtool rsync par2cmdline tar
+		sudo $PM  install gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar
 	fi
 	
  	install_perl_modules
@@ -212,8 +231,13 @@ if [ "$INSTALL" = "YES" ]; then
 	install_backuppc
 	
 	systemctl_configure
+	copy_assets
 	cleanup
+	
+	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
+	sudo systemctl start backuppc.service
+	sudo systemctl is-active --quiet backuppc.service && output "BackupPC started and running..."
 
 	output "Installation finished..."
-	echo "Configure your webserver as you wish. Apache example: https://github.com/backuppc/backuppc/blob/master/httpd/src/BackupPC.conf"
+	echo "Configure your webserver as you wish. Apache example: https://github.com/ochorocho/backuppc-manage/#configure-webserver"
 fi
