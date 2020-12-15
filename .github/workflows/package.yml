@@ -26,13 +26,21 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run ShellCheck
       uses: ludeeus/action-shellcheck@master
-  install:
-    name: Install
+  translations:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-	- name: Hooray
-	  run: "sudo apt-get install libxml2-utils"
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install xmllint
+      run: apt-get install libxml2-utils
+#   install:
+#     name: Install
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2
+# 	- name: Hooray
+# 	  run: "sudo apt-get install libxml2-utils"
 
 # 	- name: Run install
 #       uses: jcblw/bash@master
