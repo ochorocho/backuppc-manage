@@ -31,8 +31,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-	- name: Install xmllint
-	  run: sudo apt-get install libxml2-utils
+	- name: Hooray
+	  run: "sudo apt-get install libxml2-utils"
 
 # 	- name: Run install
 #       uses: jcblw/bash@master
