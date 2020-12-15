@@ -31,8 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-	- name: Run install
-      uses: jcblw/bash@master
-	  args: [ "./backuppc-manage.sh"]
+	- name: Install xmllint
+	  run: sudo apt-get install libxml2-utils
+
+# 	- name: Run install
+#       uses: jcblw/bash@master
+# 	  args: [ "./backuppc-manage.sh"]
 #     - name: Run install
 #       run: .backuppc-manage.sh
