@@ -20,11 +20,11 @@ on: push
 
 jobs:
   linux:
-    name: Linux build on node ${{ matrix.node_version }}
+    name: Linux build on node
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node_version: [8.x, 10.x]
+#     strategy:
+#       matrix:
+#         node_version: [8.x, 10.x]
 
     steps:
     - name: Checkout
