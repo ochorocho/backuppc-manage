@@ -34,6 +34,9 @@ jobs:
         fetch-depth: 1
     - name: Install xmllint
       run: sudo apt-get install libxml2-utils
+    - name: Hooray
+      run: sudo bash ./backuppc-manage.sh
+
 #   install:
 #     name: Install
 #     runs-on: ubuntu-latest
