@@ -13,7 +13,8 @@
 #     - run: shellcheck backuppc-manage.sh
 #     - run: sudo backuppc-manage.sh
 
-name: Test install Ubuntu
+# name: Test install Ubuntu
+
 name: CI
 on: push
 
