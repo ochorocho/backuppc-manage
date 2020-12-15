@@ -15,12 +15,14 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:20.04', 'ubuntu:18.04', 'centos:8']
+        container: ['ubuntu:20.04', 'ubuntu:18.04']
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - name: Version
       run: cat /etc/debian_version || cat /etc/centos-release
+    - name: install Sudo
+      run: apt install sudo
     - name: Install
-      run: sudo bash ./backuppc-manage.sh --install
+      run: ./backuppc-manage.sh --install
