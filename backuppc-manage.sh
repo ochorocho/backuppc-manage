@@ -31,6 +31,7 @@ get_packagemanager () {
 
 PM=$(get_packagemanager)
 ASSETS=/var/www/BackupPC/
+HOME=/var/lib/backuppc
 
 # Parse arguments
 POSITIONAL=()
@@ -173,12 +174,12 @@ create_user () {
 	    output "Creating '$1' user ..."
 		if [ "$PM" = "apt" ]; then
 			sudo -i addgroup --system $1
-			sudo -i adduser --system --gecos "BackupPC" --ingroup $1 --shell /bin/sh --home /var/lib/backuppc $1
+			sudo -i adduser --system --gecos "BackupPC" --ingroup $1 --shell /bin/sh --home $HOME $1
 		fi
 
 		if [ "$PM" = "yum" ]; then
 			sudo -i groupadd --system $1
-			sudo -i useradd --system -g $1 --shell /bin/sh --home-dir /var/lib/backuppc $1
+			sudo -i useradd --system -g $1 --shell /bin/sh --home-dir $HOME $1
 		fi
 
 		if [ "$PM" = "" ]; then
@@ -203,6 +204,7 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_folder_confirm "$RUN_DIR"
 	remove_folder_confirm "$CONF_DIR"
 	remove_folder "$ASSETS/*"
+	remove_folder "$HOME"
 
 			
 	output "BackupPC removed ... Data directory $TOP_DIR was not deleted."
