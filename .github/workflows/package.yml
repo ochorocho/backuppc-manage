@@ -34,6 +34,10 @@ jobs:
       matrix:
         container: ['ubuntu:16.04', 'ubuntu:18.04']
     steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: Install
       run: cat /etc/debian_version || cat /etc/centos-release
 
 #   test-install:
