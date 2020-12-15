@@ -32,7 +32,7 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:16.04', 'ubuntu:18.04']
+        container: ['ubuntu:20.04', 'ubuntu:18.04', 'centos:8']
     steps:
     - uses: actions/checkout@v1
       with:
