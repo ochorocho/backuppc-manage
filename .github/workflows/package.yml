@@ -25,4 +25,4 @@ jobs:
     - name: install Sudo
       run: apt update && apt -y install sudo
     - name: Install
-      run: ./backuppc-manage.sh --install --confirm
+      run: export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && ./backuppc-manage.sh --install --confirm
