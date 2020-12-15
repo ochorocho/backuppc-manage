@@ -1,0 +1,12 @@
+name: Test install Ubuntu
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: sudo apt install shellcheck
+    - run: shellcheck backuppc-manage.sh
+    - run: sudo backuppc-manage.sh
