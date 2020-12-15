@@ -1,14 +1,44 @@
-name: Test install Ubuntu
+# name: Test install Ubuntu
+# 
+# on:
+#   push:
+#     branches: [ master ]
+#   	
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2
+#     - run: sudo apt install shellcheck
+#     - run: shellcheck backuppc-manage.sh
+#     - run: sudo backuppc-manage.sh
 
-on:
-  push:
-    branches: [ master ]
-  	
+name: Test install Ubuntu
+name: CI
+on: push
+
 jobs:
-  build:
+  linux:
+    name: Linux build on node ${{ matrix.node_version }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node_version: [8.x, 10.x]
+
     steps:
-    - uses: actions/checkout@v2
-    - run: sudo apt install shellcheck
-    - run: shellcheck backuppc-manage.sh
-    - run: sudo backuppc-manage.sh
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Set Node.js version ${{ matrix.node_version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node_version }}
+
+    - name: Install packages
+      run: npm install
+
+    - name: Run build
+      run: npm run build:linux
+
+    - name: Moving build to artifacts directory
+      run: ./scripts/moveFiles.sh
