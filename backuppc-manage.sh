@@ -58,6 +58,10 @@ key="$1"
 	    REMOVE="YES"
 	    shift
 	    ;;
+	    --confirm)
+	    CONFIRM="-y"
+	    shift
+	    ;;
 	    *)    # unknown option
 	    POSITIONAL+=("$1")
 	    shift
@@ -220,12 +224,12 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo "$PM" install gcc libacl1-dev curl perl smbclient rrdtool rsync par2 tar
+		sudo "$PM" $CONFIRM install gcc libacl1-dev curl perl smbclient rrdtool rsync par2 tar
 	fi
 
 	if [ "$PM" = "yum" ]; then
 		sudo "$PM" -y install epel-release
-		sudo "$PM" install gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar
+		sudo "$PM" $CONFIRM install gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar
 	fi
 	
  	install_perl_modules
