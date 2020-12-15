@@ -23,6 +23,6 @@ jobs:
     - name: Version
       run: cat /etc/debian_version || cat /etc/centos-release
     - name: install Sudo
-      run: apt install sudo
+      run: apt -y install sudo
     - name: Install
       run: ./backuppc-manage.sh --install
