@@ -31,5 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run install
-      run: ls -la
+    - uses: jcblw/bash@master
+	  args: [ "./backuppc-manage.sh"]
+#     - name: Run install
+#       run: .backuppc-manage.sh
