@@ -16,13 +16,7 @@
 # name: Test install Ubuntu
 
 name: Test install Ubuntu
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
-
+on: push
 
 jobs:
   linux:
