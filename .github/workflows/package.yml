@@ -33,7 +33,7 @@ jobs:
       with:
         fetch-depth: 1
     - name: Install xmllint
-      run: apt-get install libxml2-utils
+      run: sudo apt-get install libxml2-utils
 #   install:
 #     name: Install
 #     runs-on: ubuntu-latest
