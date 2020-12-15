@@ -32,4 +32,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run install
-      run: ./backuppc-manage.sh
+      run: ls -la
