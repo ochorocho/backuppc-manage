@@ -224,7 +224,7 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo "$PM" $CONFIRM install gcc libacl1-dev curl perl smbclient rrdtool rsync par2 tar
+		sudo "$PM" $CONFIRM install gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar
 	fi
 
 	if [ "$PM" = "yum" ]; then

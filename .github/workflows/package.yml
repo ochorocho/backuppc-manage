@@ -9,13 +9,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run ShellCheck
       uses: ludeeus/action-shellcheck@master
-  build:
-    name: Build on ${{matrix.container }}
+  install-debian:
+    name: Install on ${{matrix.container }}
     runs-on: ubuntu-latest
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:20.04', 'ubuntu:18.04']
+        container: ['ubuntu:20.04', 'ubuntu:18.04', 'debian:bullseye']
     steps:
     - uses: actions/checkout@v1
       with:
