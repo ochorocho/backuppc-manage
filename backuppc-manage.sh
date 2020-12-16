@@ -90,7 +90,7 @@ install_rsync_bpc () {
 	curl -L -o rsync-bpc.tar.gz "https://github.com/backuppc/rsync-bpc/releases/download/$RSYNC_BPC/rsync-bpc-$RSYNC_BPC.tar.gz"
 	tar zxf rsync-bpc.tar.gz
 	cd "rsync-bpc-$RSYNC_BPC" || exit
-	./configure
+	./configure --prefix=/usr/bin/
 	make
 	sudo make install
 	cd ..
@@ -229,7 +229,7 @@ if [ "$INSTALL" = "YES" ]; then
 
 	if [ "$PM" = "yum" ]; then
 		sudo "$PM" -y install epel-release
-		sudo "$PM" $CONFIRM install systemctl make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar cpanminus iputils openssh-clients
+		sudo "$PM" $CONFIRM install make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar perl-App-cpanminus iputils openssh-clients bzip2
 	fi
 
  	install_perl_modules

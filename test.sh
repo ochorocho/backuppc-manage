@@ -1,5 +1,32 @@
 #!/bin/bash
 
+get_packagemanager () {
+	declare -A osInfo;
+	osInfo[/etc/redhat-release]="yum"
+	osInfo[/etc/debian_version]="apt"
+
+	for f in "${!osInfo[@]}"
+	do
+	    if [[ -f $f ]];then
+	        echo "${osInfo[$f]}"
+	    fi
+	done
+}
+
+PM=$(get_packagemanager)
+
+if [ "$PM" = "yum" ]; then
+  $PM install -y epel-release
+fi
+
+$PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make which
+chmod +x /tmp/*
+sudo /backuppc_install/backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
+
+if [ "$PM" = "yum" ]; then
+  sudo "$PM" remove -y epel-release
+fi
+
 echo "Check if all required binaries are available ..."
 which bzip2 || exit 1
 which cat || exit 1
@@ -27,7 +54,6 @@ echo "Check cleanup ..."
 [ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
 [ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
 
-#sudo systemctl start backuppc.service
 sudo systemctl status backuppc.service | grep running && echo "BackupPC is running ... well done!" || exit 1
 
 echo "Tests done ... Good Luck"

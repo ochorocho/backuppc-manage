@@ -15,16 +15,12 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:20.04']
+        container: ['ubuntu:20.04', 'centos:8']
     steps:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
       - name: Version
         run: cat /etc/debian_version || cat /etc/centos-release
-      - name: Install base Packages
-        run: apt update && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && apt -y install sudo tzdata make
-      - name: Install
-        run: ./backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
-      - name: Test
+      - name: Test Install
         run: ./test.sh
