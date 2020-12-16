@@ -15,17 +15,11 @@ get_packagemanager () {
 
 PM=$(get_packagemanager)
 
-if [ "$PM" = "yum" ]; then
-  $PM install -y epel-release
-fi
-
+[ "$PM" = "yum" ] && $PM install -y epel-release
 $PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make which
-chmod +x /tmp/*
-sudo /backuppc_install/backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
+[ "$PM" = "yum" ] && sudo "$PM" remove -y epel-release
 
-if [ "$PM" = "yum" ]; then
-  sudo "$PM" remove -y epel-release
-fi
+sudo ./backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
 
 echo "Check if all required binaries are available ..."
 which bzip2 || exit 1
