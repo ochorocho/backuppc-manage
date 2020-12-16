@@ -99,7 +99,7 @@ install_rsync_bpc () {
 install_perl_modules () {
 	output "Install perl modules ..."
 
-	sudo PERL_MM_USE_DEFAULT=1 cpan install Archive::Zip \
+	sudo PERL_MM_USE_DEFAULT=1 cpanm Archive::Zip \
 		XML::RSS  \
 		JSON::XS  \
 		CGI  \
@@ -224,12 +224,12 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo "$PM" $CONFIRM install gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar
+		sudo "$PM" $CONFIRM install systemctl make gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar cpanminus
 	fi
 
 	if [ "$PM" = "yum" ]; then
 		sudo "$PM" -y install epel-release
-		sudo "$PM" $CONFIRM install gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar
+		sudo "$PM" $CONFIRM install systemctl make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar cpanminus
 	fi
 
  	install_perl_modules
