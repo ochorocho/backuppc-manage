@@ -239,7 +239,7 @@ if [ "$INSTALL" = "YES" ]; then
 
 	systemctl_configure
 	copy_assets
-	cleanup
+#	cleanup
 
 	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
 	sudo systemctl start backuppc.service
