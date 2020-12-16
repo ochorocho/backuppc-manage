@@ -25,4 +25,4 @@ jobs:
     - name: install Sudo
       run: apt update && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && apt -y install sudo tzdata
     - name: Install
-      run: ./backuppc-manage.sh --install --confirm
+      run: ./backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
