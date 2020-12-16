@@ -15,7 +15,8 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:20.04', 'ubuntu:18.04', 'debian:bullseye']
+        container: ['ubuntu:20.04']
+#        , 'ubuntu:18.04', 'debian:bullseye'
     steps:
     - uses: actions/checkout@v1
       with:
