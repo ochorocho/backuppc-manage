@@ -23,6 +23,6 @@ jobs:
     - name: Version
       run: cat /etc/debian_version || cat /etc/centos-release
     - name: install Sudo
-      run: apt update && apt -y install sudo
+      run: apt update && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && apt -y install sudo tzdata
     - name: Install
-      run: export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && ./backuppc-manage.sh --install --confirm
+      run: ./backuppc-manage.sh --install --confirm
