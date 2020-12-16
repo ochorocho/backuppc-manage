@@ -105,11 +105,11 @@ install_perl_modules () {
 		CGI  \
 		SCGI \
 		File::Listing \
+		BackupPC::XS \
+		Test::Differences
 # 		Net::FTP \
 # 		Net::FTP::RetrHandle \
 # 		Net::FTP::AutoReconnect \
-		BackupPC::XS \
-		Test::Differences
 }
 
 install_backuppc () {
