@@ -55,3 +55,7 @@ Alias           /BackupPC         /var/www/BackupPC/
 ```
 	
 Run `a2ensite backuppc` to enable apache config and `htpasswd -c /etc/BackupPC/passwd <USERNAME>` to create a user"
+
+## Local testing
+
+docker run --rm -it -v `pwd`/:/tmp/ --entrypoint "bash" ubuntu:20.04 /tmp/docker-test.sh

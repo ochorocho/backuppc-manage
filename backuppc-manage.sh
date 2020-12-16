@@ -20,7 +20,7 @@ get_packagemanager () {
 	declare -A osInfo;
 	osInfo[/etc/redhat-release]="yum"
 	osInfo[/etc/debian_version]="apt"
-	
+
 	for f in "${!osInfo[@]}"
 	do
 	    if [[ -f $f ]];then
@@ -98,8 +98,8 @@ install_rsync_bpc () {
 
 install_perl_modules () {
 	output "Install perl modules ..."
-	
-	sudo cpan install Archive::Zip \
+
+	sudo PERL_MM_USE_DEFAULT=1 cpan install Archive::Zip \
 		XML::RSS  \
 		JSON::XS  \
 		CGI  \
@@ -161,13 +161,13 @@ cleanup () {
 remove_folder_confirm () {
 	if [ "$1" = "" ]; then
 		output "Could not delete folder due to not existing/empty config value"
-	else 
+	else
 		read -p "Really want to delete $1? [y/n] " -n 1 -r
 		echo
 		if [[ $REPLY =~ ^[Yy]$ ]]
 		then
 			remove_folder "$1"
-		fi	
+		fi
 	fi
 }
 
@@ -197,7 +197,7 @@ if [ "$REMOVE" = "YES" ]; then
 	sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
 	remove_file "/etc/systemd/system/backuppc.service"
 	sudo systemctl daemon-reload
-	
+
 	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
 	LOG_DIR=$(get_config 'LogDir')
@@ -211,7 +211,7 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_folder "$ASSETS/*"
 	remove_folder "$HOME"
 
-			
+
 	output "BackupPC removed ... Data directory $TOP_DIR was not deleted."
 fi
 
@@ -231,16 +231,16 @@ if [ "$INSTALL" = "YES" ]; then
 		sudo "$PM" -y install epel-release
 		sudo "$PM" $CONFIRM install gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar
 	fi
-	
+
  	install_perl_modules
 	install_rsync_bpc
 	create_user "backuppc"
 	install_backuppc
-	
+
 	systemctl_configure
 	copy_assets
 	#cleanup
-	
+
 	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
 	sudo systemctl start backuppc.service
 	sudo systemctl is-active --quiet backuppc.service && output "BackupPC started and running..."
