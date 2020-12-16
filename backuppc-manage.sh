@@ -224,12 +224,12 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo "$PM" $CONFIRM install systemctl make gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar cpanminus
+		sudo "$PM" $CONFIRM install systemctl make gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar cpanminus iputils-ping
 	fi
 
 	if [ "$PM" = "yum" ]; then
 		sudo "$PM" -y install epel-release
-		sudo "$PM" $CONFIRM install systemctl make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar cpanminus
+		sudo "$PM" $CONFIRM install systemctl make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar cpanminus iputils
 	fi
 
  	install_perl_modules
