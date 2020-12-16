@@ -12,10 +12,10 @@ jobs:
   install-debian-like:
     name: Install on Ubuntu
     runs-on: ubuntu-latest
-#    container: ${{ matrix.container }}
-#     strategy:
-#       matrix:
-#         container: ['ubuntu:20.04']
+    container: ${{ matrix.container }}
+     strategy:
+       matrix:
+         container: ['ubuntu:20.04']
 #        , 'ubuntu:18.04', 'debian:bullseye'
     steps:
     - uses: actions/checkout@v1
