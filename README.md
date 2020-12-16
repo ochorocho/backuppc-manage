@@ -58,4 +58,6 @@ Run `a2ensite backuppc` to enable apache config and `htpasswd -c /etc/BackupPC/p
 
 ## Local testing
 
+```
 docker run --rm -it -v `pwd`/:/tmp/ --entrypoint "bash" ubuntu:20.04 /tmp/docker-test.sh
+```

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Check if all binaries are available ..."
+echo "Check if all required binaries are available ..."
 which bzip2 || exit 1
 which cat || exit 1
 which df || exit 1
@@ -15,7 +15,7 @@ which ping6 || exit 1
 which rrdtool || exit 1
 which rsync || exit 1
 which rsync_bpc || exit 1
-which sendmail || echo "Sendmail is optional"
+which sendmail || echo "Sendmail is not installed (optional)"
 which smbclient || exit 1
 which split || exit 1
 which ssh || exit 1
@@ -27,7 +27,8 @@ echo "Check cleanup ..."
 [ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
 [ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
 
-sudo systemctl is-active --quiet backuppc.service && echo "BackupPC is running ... well done!"
+sudo systemctl status backuppc.service
+sudo systemctl is-active --quiet backuppc.service && echo "BackupPC is running ... well done!" || echo "BackupPC not running..."
 
 echo "Tests done ... Good Luck"
 
