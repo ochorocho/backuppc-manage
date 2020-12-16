@@ -106,8 +106,8 @@ install_perl_modules () {
 		SCGI \
 		File::Listing \
 		BackupPC::XS \
+ 		Net::FTP \
 		Test::Differences
-# 		Net::FTP \
 # 		Net::FTP::RetrHandle \
 # 		Net::FTP::AutoReconnect \
 }
