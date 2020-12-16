@@ -22,10 +22,10 @@ which ssh || exit 1
 
 echo "Check cleanup ..."
 
-[ -f "BackupPC.tar.gz" ] && exit "Archive still exists"
-[ -f "rsync-bpc.tar.gz" ] && exit "Archive still exists"
-[ -d $(echo BackupPC-*) ] && exit "Folder still exists"
-[ -d $(echo rsync-bpc-*) ] && exit "Folder still exists"
+[ -f "BackupPC.tar.gz" ] && echo "Archive still exists" && exit 1
+[ -f "rsync-bpc.tar.gz" ] && echo "Archive still exists" && exit 1
+[ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
+[ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
 
 sudo systemctl is-active --quiet backuppc.service && echo "BackupPC is running ... well done!"
 
