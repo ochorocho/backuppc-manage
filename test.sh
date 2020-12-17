@@ -16,7 +16,7 @@ get_packagemanager () {
 PM=$(get_packagemanager)
 
 [ "$PM" = "yum" ] && $PM install -y epel-release
-$PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make which
+$PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make
 [ "$PM" = "yum" ] && sudo "$PM" remove -y epel-release
 ./backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
 
