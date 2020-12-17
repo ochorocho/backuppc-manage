@@ -16,7 +16,7 @@ get_packagemanager () {
 PM=$(get_packagemanager)
 
 [ "$PM" = "yum" ] && grep -i centos < /etc/redhat-release && $PM install -y epel-release
-$PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make
+$PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make which
 [ "$PM" = "yum" ] && grep -i centos < /etc/redhat-release && sudo "$PM" remove -y epel-release
 
 # Install BackupPC
