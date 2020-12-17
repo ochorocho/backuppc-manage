@@ -50,7 +50,7 @@ echo "Check cleanup ..."
 [ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
 [ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
 
-sudo systemctl status backuppc.service | grep running && echo "BackupPC is running ... well done!" || exit 1
+sudo service backuppc status | grep running && echo "BackupPC is running ... well done!" || exit 1
 
 echo "Tests done ... Good Luck"
 

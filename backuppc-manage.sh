@@ -132,7 +132,7 @@ install_backuppc () {
 systemctl_configure () {
 	output "Add systemd service file ..."
 	yes | sudo cp -f BackupPC-"$BACKUPPC_VERSION"/systemd/backuppc.service /etc/systemd/system/backuppc.service
-	sudo systemctl daemon-reload
+	#sudo systemctl daemon-reload
 }
 
 copy_assets () {
@@ -194,9 +194,10 @@ create_user () {
 }
 
 if [ "$REMOVE" = "YES" ]; then
-	sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
+	# sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
+  service backuppc stop
 	remove_file "/etc/systemd/system/backuppc.service"
-	sudo systemctl daemon-reload
+	#sudo systemctl daemon-reload
 
 	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
@@ -224,7 +225,7 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "apt" ]; then
-		sudo "$PM" $CONFIRM install systemctl make gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar cpanminus iputils-ping openssh-client
+		sudo "$PM" $CONFIRM install make gcc libacl1-dev apache2-utils curl perl smbclient rrdtool rsync par2 tar cpanminus iputils-ping openssh-client
 	fi
 
 	if [ "$PM" = "yum" ]; then
@@ -242,8 +243,9 @@ if [ "$INSTALL" = "YES" ]; then
  	cleanup
 
 	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
-	sudo systemctl start backuppc.service
-	sudo systemctl is-active --quiet backuppc.service && output "BackupPC started and running..."
+	sudo service backuppc start
+	#sudo systemctl is-active --quiet backuppc.service && output "BackupPC started and running..."
+	sudo service backuppc status | grep running && output "BackupPC started and running..."
 
 	output "Installation finished..."
 	echo "Configure your webserver as you wish. Apache example: https://github.com/ochorocho/backuppc-manage/#configure-webserver"
