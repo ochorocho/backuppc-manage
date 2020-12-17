@@ -90,7 +90,7 @@ install_rsync_bpc () {
 	curl -L -o rsync-bpc.tar.gz "https://github.com/backuppc/rsync-bpc/releases/download/$RSYNC_BPC/rsync-bpc-$RSYNC_BPC.tar.gz"
 	tar zxf rsync-bpc.tar.gz
 	cd "rsync-bpc-$RSYNC_BPC" || exit
-	./configure --prefix=/usr/bin/
+	./configure --prefix=/usr/
 	make
 	sudo make install
 	cd ..
