@@ -1,4 +1,4 @@
-name: Test install Ubuntu
+name: Test Install
 on: push
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: ['ubuntu:20.04', 'centos:8']
+        container: ['ubuntu:20.04', 'debian:buster', 'centos:8']
     steps:
       - uses: actions/checkout@v1
         with:
