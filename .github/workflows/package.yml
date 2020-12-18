@@ -21,6 +21,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Version
-        run: cat /etc/debian_version || cat /etc/centos-release
+        run: cat /etc/debian_version || cat /etc/redhat-release
       - name: Test Install
         run: ./test.sh
