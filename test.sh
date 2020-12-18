@@ -15,12 +15,9 @@ get_packagemanager () {
 
 PM=$(get_packagemanager)
 
-[ "$PM" = "yum" ] && grep -E -i -w 'centos|fedora' < /etc/redhat-release && $PM install -y which
 [ "$PM" = "yum" ] && grep -E -i -w 'centos' < /etc/redhat-release && $PM install -y epel-release which
 $PM update -y && export DEBIAN_FRONTEND=noninteractive && export TZ=Europe/Berlin && $PM install -y sudo tzdata make
 [ "$PM" = "yum" ] && grep -E -i -w 'centos' < /etc/redhat-release && sudo "$PM" remove -y epel-release
-
-bash
 
 # Install BackupPC
 ./backuppc-manage.sh --install --confirm --backuppc-version 4.4.0 --rsync-bpc-version 3.1.3.0
