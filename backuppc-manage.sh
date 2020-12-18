@@ -227,6 +227,8 @@ if [ "$INSTALL" = "YES" ]; then
 	fi
 
 	if [ "$PM" = "yum" ]; then
+
+    grep -E -i -w 'centos|fedora' < /etc/redhat-release && sudo "$PM" -y install hostname
     grep -i centos < /etc/redhat-release && sudo "$PM" -y install epel-release
 		sudo "$PM" $CONFIRM install make gcc libacl-devel httpd-tools curl perl samba-client rrdtool rsync par2cmdline tar perl-App-cpanminus iputils openssh-clients bzip2
 	fi
