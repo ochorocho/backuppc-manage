@@ -44,13 +44,11 @@ which split || exit 1
 which ssh || exit 1
 
 echo "Check cleanup ..."
-
 [ -f "BackupPC.tar.gz" ] && echo "Archive still exists" && exit 1
 [ -f "rsync-bpc.tar.gz" ] && echo "Archive still exists" && exit 1
 [ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
 [ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
-
-sudo service backuppc status | grep running && echo "BackupPC is running ... well done!" || exit 1
+[ -f "/etc/systemd/system/backuppc.service" ] && echo "Service file present"
 
 echo "Tests done ... Good Luck"
 

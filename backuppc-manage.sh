@@ -132,7 +132,7 @@ install_backuppc () {
 systemctl_configure () {
 	output "Add systemd service file ..."
 	yes | sudo cp -f BackupPC-"$BACKUPPC_VERSION"/systemd/backuppc.service /etc/systemd/system/backuppc.service
-	#sudo systemctl daemon-reload
+	[ "$(which systemctl)" != "" ] && sudo systemctl daemon-reload
 }
 
 copy_assets () {
@@ -194,10 +194,9 @@ create_user () {
 }
 
 if [ "$REMOVE" = "YES" ]; then
-	# sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
-  service backuppc stop
+	[ "$(which systemctl)" != "" ] && sudo systemctl is-active --quiet backuppc.service && sudo systemctl stop backuppc.service
 	remove_file "/etc/systemd/system/backuppc.service"
-	#sudo systemctl daemon-reload
+	[ "$(which systemctl)" != "" ] && sudo systemctl daemon-reload
 
 	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
@@ -211,7 +210,6 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_folder_confirm "$CONF_DIR"
 	remove_folder "$ASSETS/*"
 	remove_folder "$HOME"
-
 
 	output "BackupPC removed ... Data directory $TOP_DIR was not deleted."
 fi
@@ -243,10 +241,8 @@ if [ "$INSTALL" = "YES" ]; then
  	cleanup
 
 	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
-	sudo service backuppc start
-	#sudo systemctl is-active --quiet backuppc.service && output "BackupPC started and running..."
-	sudo service backuppc status | grep running && output "BackupPC started and running..."
 
 	output "Installation finished..."
+	output "Run 'sudo systemctl start backuppc' to start BackupPC"
 	echo "Configure your webserver as you wish. Apache example: https://github.com/ochorocho/backuppc-manage/#configure-webserver"
 fi
