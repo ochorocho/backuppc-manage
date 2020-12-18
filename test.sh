@@ -14,6 +14,7 @@ get_packagemanager () {
 }
 
 PM=$(get_packagemanager)
+bash
 
 [ "$PM" = "yum" ] && grep -E -i -w 'centos|fedora' < /etc/redhat-release && $PM install -y which
 [ "$PM" = "yum" ] && grep -E -i -w 'centos' < /etc/redhat-release && $PM install -y epel-release which
