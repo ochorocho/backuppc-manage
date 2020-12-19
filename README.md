@@ -46,7 +46,7 @@ Create `/etc/apache2/sites-enabled/backuppc.conf` with the following content:
 LoadModule scgi_module modules/mod_scgi.so
 SCGIMount /BackupPC_Admin 127.0.0.1:10268
 <Location /BackupPC_Admin>
-    AuthUserFile /etc/BackupPC/passwd
+    AuthUserFile /var/www/backuppc_passwd
     AuthType basic
     AuthName "access"
     require valid-user
@@ -55,6 +55,28 @@ Alias           /BackupPC         /var/www/BackupPC/
 ```
 	
 Run `a2ensite backuppc` to enable apache config and `htpasswd -c /etc/BackupPC/passwd <USERNAME>` to create a user"
+
+## NGINX Config
+
+```
+location /BackupPC_Admin {
+        auth_basic "BackupPC";
+        auth_basic_user_file /var/www/backuppc_passwd;
+
+        include /etc/nginx/scgi_params;
+        scgi_pass 127.0.0.1:10268;
+        scgi_param REMOTE_USER $remote_user;
+        scgi_param SCRIPT_NAME $document_uri;
+}
+
+location /BackupPC/ {
+        alias /var/www/BackupPC/;
+}
+```
+
+## Generate SSH Key
+
+/var/lib/backuppc
 
 ## Local testing
 

@@ -198,6 +198,8 @@ if [ "$REMOVE" = "YES" ]; then
 	remove_file "/etc/systemd/system/backuppc.service"
 	[ "$(which systemctl)" != "" ] && sudo systemctl daemon-reload
 
+	remove_file "/var/www/backuppc_passwd"
+
 	TOP_DIR=$(get_config 'TopDir')
 	CONF_DIR=$(get_config 'ConfDir')
 	LOG_DIR=$(get_config 'LogDir')
@@ -240,7 +242,7 @@ if [ "$INSTALL" = "YES" ]; then
 	copy_assets
  	cleanup
 
-	htpasswd -b -c /etc/BackupPC/passwd backuppc backuppc
+	htpasswd -b -c /var/www/backuppc_passwd backuppc backuppc
 
 	output "Installation finished..."
 	output "Run 'sudo systemctl start backuppc' to start BackupPC"

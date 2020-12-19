@@ -49,6 +49,7 @@ echo "Check cleanup ..."
 [ -d "$(echo BackupPC-*)" ] && echo "Folder still exists" && exit 1
 [ -d "$(echo rsync-bpc-*)" ] && echo "Folder still exists" && exit 1
 [ -f "/etc/systemd/system/backuppc.service" ] && echo "Service file present"
+[ -f "/var/www/backuppc_passwd" ] && echo "AuthFile for webserver present"
 
 echo "Tests done ... Good Luck"
 
